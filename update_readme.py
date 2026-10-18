@@ -5,6 +5,7 @@
   and items are sorted by stars within each `## ` section (items without stars last).
 - Star counts are cached in .stars_cache.json; when the API is unavailable
   (rate limit, network) the cached value is used and marked with `*`.
+- Repos that return 404 get a `[broken link]` marker instead of stars and sort last.
 - A fixed header replaces the source title.
 - Everything else is copied from the source, with a blank line added before each
   section's items.
@@ -89,6 +90,10 @@ class Stars:
                 self.cache[repo] = {"stars": stars, "fetched_at": now_utc().isoformat().replace("+00:00", "Z")}
                 return stars, format_stars(stars)
             except Exception as e:  # noqa: BLE001 - degrade gracefully per repo
+                if isinstance(e, urllib.error.HTTPError) and e.code == 404:
+                    print(f"warning: {repo} not found (404), marking as broken link", file=sys.stderr)
+                    self.cache.pop(repo, None)
+                    return None, "[broken link]"
                 if isinstance(e, urllib.error.HTTPError) and e.code in (403, 429):
                     print("warning: GitHub API rate limit hit, using the cache for the rest", file=sys.stderr)
                     self.rate_limited = True
@@ -126,7 +131,13 @@ def rank_section(lines, stars):
 
 def main():
     source = fetch(SOURCE_URL).decode("utf-8")
-    body = source.split("\n")[2:]  # drop the source title and the blank line after it
+    body = source.split("\n")
+    title = next((i for i, line in enumerate(body) if line.startswith("# ")), None)
+    if title is None:
+        sys.exit("error: no `# ` title found in the source README; its layout has changed")
+    body = body[title + 1:]
+    while body and body[0] == "":  # drop the blank lines after the title
+        body.pop(0)
     stars = Stars()
 
     out = HEADER.split("\n")

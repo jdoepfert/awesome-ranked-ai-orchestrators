@@ -71,7 +71,7 @@ Run and supervise several agent sessions side by side from a terminal — tmux p
 The same parallel-sessions workflow as a desktop app or browser/mobile dashboard, with diff review and merge.
 
 
-- [Orca](https://github.com/stablyai/orca) ⭐96.4k - Agentic development environment for running a fleet on your own subscription, available on desktop and mobile.
+- [Orca](https://github.com/stablyai/orca) ⭐96.5k - Agentic development environment for running a fleet on your own subscription, available on desktop and mobile.
 - [t3code](https://github.com/pingdotgg/t3code) ⭐28.3k - Harness control surface available as web, mobile, and desktop app. Claude Code, Codex, Cursor, Grok Build, OpenCode.
 - [Happy](https://github.com/slopus/happy) ⭐24.2k - Desktop app and CLI running agent sessions side by side on your own machine or server, with an end-to-end encrypted iOS/Android app for the same sessions. Claude Code, Codex, and Grok in the desktop app; Claude Code, Codex, and any ACP agent from the CLI.
 - [Paseo](https://github.com/getpaseo/paseo) ⭐21.3k - Self-hosted daemon running agents in parallel on your own machines, driven from desktop, iOS/Android, web, or CLI, with voice control, diff review, and no telemetry or forced log-ins. Claude Code, Codex, Copilot, OpenCode, Pi.
@@ -180,7 +180,7 @@ Systems where multiple specialized agents actively coordinate, communicate, and 
 - [Alook](https://github.com/alookai/alook) ⭐1.4k - Shared rooms where people and agents collaborate: local coding agents get persistent identities with handles, inboxes, and memberships, while agents keep running on your own machine.
 - [Fusion](https://github.com/Runfusion/Fusion) ⭐1.3k - Multi-node orchestrator with a kanban board, plan-review-execute gates, per-task worktrees, and hierarchical missions.
 - [loki-mode](https://github.com/asklokesh/loki-mode) ⭐1.1k - PRD-to-deployed-product SDLC with 41 agents in 8 swarms, nine quality gates, and blind three-reviewer code review. Source-available under BUSL-1.1.
-- [agent-swarm](https://github.com/desplega-ai/agent-swarm) ⭐903 - Self-hosted AI company operating system where a lead agent delegates goals to workers in isolated containers, with persistent memory, schedules, and review gates. Claude Code, Codex, pi, OpenCode, Cursor, Amp, Grok, Devin, and ACP agents.
+- [agent-swarm](https://github.com/desplega-ai/agent-swarm) ⭐904 - Self-hosted AI company operating system where a lead agent delegates goals to workers in isolated containers, with persistent memory, schedules, and review gates. Claude Code, Codex, pi, OpenCode, Cursor, Amp, Grok, Devin, and ACP agents.
 - [openswarm](https://github.com/openswarm-ai/openswarm) ⭐829 - Local mission-control center for launching, monitoring, approving, and coordinating multiple AI agents in parallel.
 - [hcom](https://github.com/aannoo/hcom) ⭐579 - Lets agents message, watch, and spawn each other across terminals. Claude Code, Codex, Antigravity, Cursor, OpenCode, Kilo, and more.
 - [agent-kanban](https://github.com/saltbo/agent-kanban) ⭐492 - Leader-worker task board with cryptographic agent identity. Claude Code, Codex, Gemini CLI.
@@ -218,7 +218,7 @@ The "keep running until done" pattern — a single goal driven through a retry-u
 - [LoopTroop](https://github.com/looptroop-ai/LoopTroop) ⭐163 - An LLM council plans the work, then Ralph-style loops retry failed units with fresh context. Executes via OpenCode worktrees.
 - [future-os](https://github.com/futuregene/future-os) ⭐111 - One agent everywhere (terminal, desktop, mobile, CLI, IM bots) with a built-in loop control plane: durable goals, event-sourced state, and verification gates for 24h+ runs.
 - [toryo](https://github.com/JesseRWeigel/toryo) ⭐12 - Trust-based delegation with quality ratcheting that commits improvements and reverts regressions. Chains Claude Code, Aider, Gemini CLI, Ollama.
-- [Dex](https://github.com/francescoalemanno/dex) - Human-gated planning, multi-reviewer code review, and dead-end-aware research loops, shipped as cross-platform binaries for 7 CLI backends.
+- [Dex](https://github.com/francescoalemanno/dex) [broken link] - Human-gated planning, multi-reviewer code review, and dead-end-aware research loops, shipped as cross-platform binaries for 7 CLI backends.
 
 ## Autonomous Task Runners
 
@@ -359,4 +359,4 @@ A watchlist of projects without a push in the last few months (checked 2026-07-2
 - [wit](https://github.com/amaar-mc/wit) ⭐46 - Locks individual functions rather than files via Tree-sitter, warning agents of conflicts before they write. _(last commit 2026-03)_
 
 ---
-Last updated: 2026-10-18T20:20:01Z UTC
+Last updated: 2026-10-18T20:46:29Z UTC
