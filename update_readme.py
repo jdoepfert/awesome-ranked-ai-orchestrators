@@ -5,8 +5,9 @@
   and items are sorted by stars within each `## ` section (items without stars last).
 - Star counts are cached in .stars_cache.json; when the API is unavailable
   (rate limit, network) the cached value is used and marked with `*`.
-- The block between CUSTOM_START/CUSTOM_END in the existing README is kept on top.
-- Everything else is copied from the source unchanged.
+- A fixed header replaces the source title.
+- Everything else is copied from the source, with a blank line added before each
+  section's items.
 """
 
 import json
@@ -21,9 +22,17 @@ from datetime import datetime, timezone
 SOURCE_URL = "https://raw.githubusercontent.com/andyrewlee/awesome-agent-orchestrators/main/README.md"
 OUTPUT_PATH = "README.md"
 CACHE_PATH = ".stars_cache.json"
-CUSTOM_START = "<!-- CUSTOM_START -->"
-CUSTOM_END = "<!-- CUSTOM_END -->"
 MAX_RETRIES = 3
+
+# Replaces the source title; the source body follows after the `-----` rule.
+HEADER = """# Awesome Ranked Agent Orchestrators [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+
+A daily-refreshed copy of [andyrewlee/awesome-agent-orchestrators](https://github.com/andyrewlee/awesome-agent-orchestrators) where every listed project is enriched with its GitHub star count and each section is sorted by stars (highest first).
+
+
+The remainder of the README stays identical to the source:
+
+-----"""
 
 HEADERS = {"User-Agent": "awesome-ranked-ai-orchestrators/1.0"}
 if os.environ.get("GITHUB_TOKEN"):
@@ -98,17 +107,6 @@ class Stars:
         os.replace(tmp, CACHE_PATH)
 
 
-def read_custom_block():
-    """Return the CUSTOM_START..CUSTOM_END lines (markers included) of the current README."""
-    try:
-        with open(OUTPUT_PATH, encoding="utf-8") as f:
-            lines = f.read().split("\n")
-        start = lines.index(CUSTOM_START)
-        return lines[start : lines.index(CUSTOM_END, start) + 1]
-    except (FileNotFoundError, ValueError):
-        return []
-
-
 def rank_section(lines, stars):
     """Add star badges to repo items and sort them by stars; other lines stay in place."""
     slots, items = [], []
@@ -121,27 +119,33 @@ def rank_section(lines, stars):
     items.sort(key=lambda it: (it[0] is None, -(it[0] or 0)))  # stable: unstarred keep source order
     for i, (_, line) in zip(slots, items):
         lines[i] = line
+    if slots:
+        lines.insert(slots[0], "")  # two-blank gap between the section intro and its items
     return lines
 
 
 def main():
     source = fetch(SOURCE_URL).decode("utf-8")
+    body = source.split("\n")[2:]  # drop the source title and the blank line after it
     stars = Stars()
 
-    out = read_custom_block() + [""]
+    out = HEADER.split("\n")
     section = []
-    for line in source.split("\n") + ["## "]:  # sentinel header flushes the last section
+    for line in body + ["## "]:  # sentinel header flushes the last section
         if line.startswith("## ") and section:
             out += rank_section(section, stars)
             section = []
         section.append(line)
 
     stars.save()
-    out += ["", f"Last updated: {now_utc():%Y-%m-%d %H:%M:%S} UTC"]
+    while out and out[-1] == "":
+        out.pop()
+    out += ["", "---"]
     if stars.used_cache:
-        out += ["", r"\* Star count reused from a previous run (API unavailable), may be outdated."]
+        out += [r"\* Star count reused from a previous run (API unavailable), may be outdated.", ""]
+    out += [f"Last updated: {now_utc():%Y-%m-%dT%H:%M:%SZ} UTC"]
 
-    result = re.sub(r"\n{3,}", "\n\n", "\n".join(out)).strip("\n") + "\n"
+    result = "\n".join(out) + "\n"
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(result)
     print(f"wrote {OUTPUT_PATH} ({len(result)} bytes, cache used: {stars.used_cache})")
