@@ -359,4 +359,4 @@ A watchlist of projects without a push in the last few months (checked 2026-07-2
 - [wit](https://github.com/amaar-mc/wit) ⭐46 - Locks individual functions rather than files via Tree-sitter, warning agents of conflicts before they write. _(last commit 2026-03)_
 
 ---
-Last updated: 2026-10-18T20:46:29Z UTC
+Last updated: 2026-10-18T20:52:31Z UTC
